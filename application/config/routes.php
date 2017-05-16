@@ -42,3 +42,11 @@ $route['add-supplier/(:num)'] = 'supplier/supplier_controller/ajax_add/$1';
 $route['update-supplier/(:num)'] = 'supplier/supplier_controller/ajax_update/$1';
 
 $route['delete-supplier/(:num)'] = 'supplier/supplier_controller/ajax_delete/$1';
+
+
+//************************************** USERS
+//**************************************
+
+$route['users-page'] = 'users/users_controller/users_list';
+$route['users/delete/(:any)'] = 'users_controller/delete/$1';
+$route['users/(:any)'] = 'users_controller/view/$1';
