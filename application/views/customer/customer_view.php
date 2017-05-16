@@ -40,7 +40,7 @@
                         <div class="panel-body">
                             <button class="btn btn-success" onclick="add_data()">+ Add Customer</button>
                             <br><br>
-                            <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <table id="customer-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>Last Name</th>

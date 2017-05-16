@@ -58,7 +58,7 @@
         function add_data() // ---> calling for the Add Modal form
         {
             
-            if(tableID == "table"){
+            if(tableID == "customer-table"){
                 save_method = 'add-customer';
                 text = 'Add Person';
             }else{
