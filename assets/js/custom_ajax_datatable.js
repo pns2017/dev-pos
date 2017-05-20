@@ -215,6 +215,17 @@
             save_method = 'add-customer';
             text = 'Add Customer';
             
+<<<<<<< HEAD
+=======
+            if(tableID == "customer-table"){
+                save_method = 'add-customer';
+                text = 'Add Person';
+            }else{
+                save_method = 'add-supplier';
+                text = 'Add Supplier';
+            }
+            // alert(save_method);
+>>>>>>> 1f4e2d75fdf1e0eb11bb233d2d5bad25ea22a0c7
             $('#form')[0].reset(); // reset form on modals
             $('.form-group').removeClass('has-error'); // clear error class
             $('.help-block').empty(); // clear error string
