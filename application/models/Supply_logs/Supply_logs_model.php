@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Users_model extends CI_Model {
+class Supply_logs_model extends CI_Model {
 
-	var $table = 'users';
-	var $column_order = array('user_id','user_type','username','password','lastname','firstname','middlename','contact','email','address','date_registered'); //set column field database for datatable orderable
-	var $column_search = array('username','firstname','lastname','middlename','address'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('user_id' => 'desc'); // default order 
+	var $table = 'supply_logs';
+	var $column_order = array('supply_id','supplier_id','sku',null,'quantity','expense','date_time',null); //set column field database for datatable orderable
+	var $column_search = array('sku','quantity','date_time'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $order = array('supply_id' => 'desc'); // default order 
 
 	public function __construct()
 	{
@@ -18,7 +18,6 @@ class Users_model extends CI_Model {
 	{
 		
 		$this->db->from($this->table);
-		$this->db->where('removed', 0);
 
 		$i = 0;
 	
@@ -30,7 +29,6 @@ class Users_model extends CI_Model {
 				if($i===0) // first loop
 				{
 					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-					
 					$this->db->like($item, $_POST['search']['value']);
 				}
 				else
@@ -77,41 +75,9 @@ class Users_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
-	public function get_by_id($id)
-	{
-		$this->db->from($this->table);
-		$this->db->where('user_id',$id);
-		$query = $this->db->get();
-
-		return $query->row();
-	}
-
-	public function get_by_user_id($id)
-	{
-		$this->db->from($this->table);
-		$this->db->where('user_id',$id);
-		$query = $this->db->get();
-
-		return $query->row_array();
-	}
-
 	public function save($data)
 	{
 		$this->db->insert($this->table, $data);
 		return $this->db->insert_id();
 	}
-
-	public function update($where, $data)
-	{
-		$this->db->update($this->table, $data, $where);
-		return $this->db->affected_rows();
-	}
-
-	public function delete_by_id($id)
-	{
-		$this->db->where('user_id', $id);
-		$this->db->delete($this->table);
-	}
-
-
 }

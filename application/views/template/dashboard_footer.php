@@ -48,6 +48,6 @@
 
 	<!--Custom JS for Ajax CRUD [ RECOMMENDED ]-->
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/custom_ajax_datatable.js"></script>
-	
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/users_script.js"></script>
 </body>
 </html>

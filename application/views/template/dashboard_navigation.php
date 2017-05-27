@@ -73,8 +73,9 @@
                         
                                         <!--Submenu-->
                                         <ul class="collapse">
-                                            <li><a href="#">Supply</a></li>
-                                            <li><a href="#">Delivery</a></li>       
+                                            <li><a href="<?php echo base_url();?>inventory-page">Products List</a></li>
+                                            <li><a href="<?php echo base_url();?>supply-logs-page">Supply Logs</a></li>       
+                                            <li><a href="<?php echo base_url();?>damaged-items-page">Damaged Items</a></li>
                                         </ul>
                                     </li>
                         
@@ -87,13 +88,13 @@
                                     <li>
                                         <a href="#">
                                             <i class="fa fa-cubes"></i>
-                                            <span class="menu-title">Supplier</span>
+                                            <span class="menu-title">Suppliers</span>
                                             <i class="arrow"></i>
                                         </a>
                         
                                         <!--Submenu-->
                                         <ul class="collapse">
-                                            <li><a href="<?php echo base_url();?>supplier-page">Show list</a></li>            
+                                            <li><a href="<?php echo base_url();?>suppliers-page">Show List</a></li>            
                                         </ul>
                                     </li>
                         
@@ -101,13 +102,13 @@
                                     <li>
                                         <a href="#">
                                             <i class="fa fa-user"></i>
-                                            <span class="menu-title">Customer</span>
+                                            <span class="menu-title">Customers</span>
                                             <i class="arrow"></i>
                                         </a>
                         
                                         <!--Submenu-->
                                         <ul class="collapse">
-                                            <li><a href="<?php echo base_url();?>customer-page">Show List</a></li>
+                                            <li><a href="<?php echo base_url();?>customers-page">Show List</a></li>
                                         </ul>
                                     </li>
                         
@@ -121,7 +122,7 @@
                         
                                         <!--Submenu-->
                                         <ul class="collapse">
-                                            <li><a href="#">Show list</a></li> <!-- <?php base_url();?>users-page -->
+                                            <li><a href="<?php echo base_url();?>users-page">Show List</a></li> <!-- <?php base_url();?>users-page -->
                                         </ul>
                                     </li>
 
