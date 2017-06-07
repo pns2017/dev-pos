@@ -122,11 +122,7 @@
                         
                                         <!--Submenu-->
                                         <ul class="collapse">
-<<<<<<< HEAD
-                                            <li><a href="<?php echo base_url();?>users-page">Show List</a></li> <!-- <?php base_url();?>users-page -->
-=======
-                                            <li><a href="#">Show List</a></li> <!-- <?php base_url();?>users-page -->
->>>>>>> 99880b4c17e1670f7d52c38b8cfc96e63b86c640
+                                            <li><a href="<?php echo base_url();?>users-page">Show List</a></li>
                                         </ul>
                                     </li>
 

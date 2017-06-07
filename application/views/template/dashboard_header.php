@@ -370,7 +370,7 @@
                                 <span class="pull-right">
                                     <img class="img-circle img-user media-object" src="<?php echo base_url();?>assets/img/av1.png" alt="Profile Picture">
                                 </span>
-                                <div class="username hidden-xs">John Doe</div>
+                                <div class="username hidden-xs"><?php echo $this->session->username?></div>
                             </a>
 
 
