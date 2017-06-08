@@ -88,7 +88,7 @@
                         "rowCallback": function( row, data, index ) 
                         {
                           var stock = parseInt(data[6]), //data[2]
-                              reorder = parseFloat(data[10]), //data[4]
+                              reorder = parseFloat(data[8]), //data[4]
                               $node = this.api().row(row).nodes().to$();
 
                           if (stock < reorder && stock != 0) 
@@ -169,13 +169,45 @@
                           } 
                         }               
                     });           
+            }
+            else if(tableID == "users-table")
+            {
+                    table = $('#users-table').DataTable({ 
+                 
+                        "processing": true, //Feature control the processing indicator.
+                        "serverSide": true, //Feature control DataTables' server-side processing mode.
+                        "order": [], //Initial no order.
+                 
+                        // Load data for the table's content from an Ajax source
+                        "ajax": {
+                            "url": "users/users_controller/ajax_list",
+                            "type": "POST",
+                        },
+                 
+                        //Set column definition initialisation properties.
+                        "columnDefs": [
+                        { 
+                            "targets": [ -1 ], //last column
+                            "orderable": false, //set not orderable
+                        },
+                        ],
+
+                        "rowCallback": function( row, data, index ) {
+                          var user_type = data[1],
+                              $node = this.api().row(row).nodes().to$();
+
+                          if (user_type == 'administrator') {
+                             $node.css('background-color', 'Cyan');
+                          } 
+                        }               
+                    });           
             }            
         });
 
         function view_product(sku)
         {
             //save_method = 'update';
-            $('#form')[0].reset(); // reset form on modals
+            $('#form_view')[0].reset(); // reset form on modals
             $('.form-group').removeClass('has-error'); // clear error class
             $('.help-block').empty(); // clear error string
 
@@ -198,10 +230,92 @@
                     $('[name="unit_damaged"]').val(data.unit_damaged);
                     $('[name="unit_lost"]').val(data.unit_lost);
                     $('[name="reorder_point"]').val(data.reorder_point);
+                    // fetch image path
+                    document.getElementById('image').src = "uploads/"+data.imgpath;
                     
-                    $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
+                    $('#modal_form_view').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('View Product'); // Set title to Bootstrap modal title
 
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function edit_privileges(id) // for customer table
+        {
+            save_method = 'update-privileges';
+            $('#form')[0].reset(); // reset form on modals
+            $('#form_privileges')[0].reset(); // reset form on modals
+            $('.form-group').removeClass('has-error'); // clear error class
+            $('.help-block').empty(); // clear error string
+         
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "users/users_controller/ajax_edit/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="user_id"]').val(data.user_id);
+                    $('[name="administrator"]').val(data.administrator).prop('selected', true);
+                    $('[name="current_administrator"]').val(data.administrator);
+                    $('[name="cashier"]').val(data.cashier).prop('selected', true);
+                    $('[name="inventory"]').val(data.inventory).prop('selected', true);
+                    $('[name="supplier"]').val(data.supplier).prop('selected', true);
+                    $('[name="customer"]').val(data.customer).prop('selected', true);
+                    $('[name="user"]').val(data.user).prop('selected', true);
+                    $('[name="report"]').val(data.report).prop('selected', true);
+
+                    $('#modal_form_privileges').modal('show'); // show bootstrap modal when complete loaded
+                    $('.modal-title').text('Edit Privileges'); // Set title to Bootstrap modal title
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error get data from ajax');
+                }
+            });
+        }
+
+        function view_edit_user(id) // for customer table
+        {
+            save_method = 'update-user';
+            $('#form')[0].reset(); // reset form on modals
+            $('#form_privileges')[0].reset(); // reset form on modals
+            $('.form-group').removeClass('has-error'); // clear error class
+            $('.help-block').empty(); // clear error string
+         
+            //Ajax Load data from ajax
+            $.ajax({
+                url : "users/users_controller/ajax_edit/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    $('[name="user_id"]').val(data.user_id);
+                    $('[name="username"]').val(data.username);
+                    $('[name="password"]').val(data.password);
+                    $('[name="repassword"]').val(data.password);
+                    $('[name="current_username"]').val(data.username);
+                    $('[name="lastname"]').val(data.lastname);
+                    $('[name="firstname"]').val(data.firstname);
+                    $('[name="middlename"]').val(data.middlename);
+                    $('[name="current_name"]').val(data.lastname + data.firstname + data.middlename);
+                    $('[name="contact"]').val(data.contact);
+                    $('[name="email"]').val(data.email);
+                    $('[name="address"]').val(data.address);
+                    // $('[name="administrator"]').val(data.administrator);
+                    // $('[name="cashier"]').val(data.cashier);
+                    // $('[name="inventory"]').val(data.inventory);
+                    // $('[name="supplier"]').val(data.supplier);
+                    // $('[name="customer"]').val(data.customer);
+                    // $('[name="user"]').val(data.user);
+                    // $('[name="report"]').val(data.report);
+
+                    $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
+                    $('.modal-title').text('Edit User'); // Set title to Bootstrap modal title
                 },
                 error: function (jqXHR, textStatus, errorThrown)
                 {
@@ -215,20 +329,6 @@
             save_method = 'add-customer';
             text = 'Add Customer';
             
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-            if(tableID == "customer-table"){
-                save_method = 'add-customer';
-                text = 'Add Person';
-            }else{
-                save_method = 'add-supplier';
-                text = 'Add Supplier';
-            }
-            // alert(save_method);
->>>>>>> 1f4e2d75fdf1e0eb11bb233d2d5bad25ea22a0c7
->>>>>>> 99880b4c17e1670f7d52c38b8cfc96e63b86c640
             $('#form')[0].reset(); // reset form on modals
             $('.form-group').removeClass('has-error'); // clear error class
             $('.help-block').empty(); // clear error string
@@ -260,6 +360,18 @@
             $('.help-block').empty(); // clear error string
             $('#modal_form').modal('show'); // show bootstrap modal
             $('.modal-title').text('Add Product'); // Set Title to Bootstrap modal title
+        }
+
+        function add_user()
+        {
+            save_method = 'add-user';
+
+            $('#form')[0].reset(); // reset form on modals
+            $('#form_privileges')[0].reset(); // reset form on modals
+            $('.form-group').removeClass('has-error'); // clear error class
+            $('.help-block').empty(); // clear error string
+            $('#modal_form').modal('show'); // show bootstrap modal
+            $('.modal-title').text('Add User'); // Set Title to Bootstrap modal title
         }
 
         function edit_customer(id) // for customer table
@@ -319,10 +431,9 @@
                     $('[name="city"]').val(data.city);
                     $('[name="contact"]').val(data.contact);
                     $('[name="email"]').val(data.email);
-                    $('[name="status"]').val(data.status);
+                    $('[name="status"]').val(data.status).prop('selected', true);
                     $('[name="products"]').val(data.products);
 
-<<<<<<< HEAD
                     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
          
@@ -332,106 +443,6 @@
                     alert('Error get data from ajax');
                 }
             });
-        }
-
-        function edit_product(id) // for supplier table
-        {
-            save_method = 'update-product';
-            $('#form')[0].reset(); // reset form on modals
-            $('.form-group').removeClass('has-error'); // clear error class
-            $('.help-block').empty(); // clear error string
-         
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "inventory/inventory_controller/ajax_edit/" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {
-                    $('[name="sku"]').val(data.sku);
-                    $('[name="current_name"]').val(data.name);
-                    $('[name="name"]').val(data.name);
-                    $('[name="description"]').val(data.description);
-                    $('[name="category"]').val(data.category);
-                    $('[name="unit_price"]').val(data.unit_price);
-                    $('[name="unit_cost"]').val(data.unit_cost);
-                    $('[name="reorder_point"]').val(data.reorder_point);
-
-                    $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-                    $('.modal-title').text('Edit Product'); // Set title to Bootstrap modal title
-=======
-                    $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-                    $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
->>>>>>> 99880b4c17e1670f7d52c38b8cfc96e63b86c640
-         
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-<<<<<<< HEAD
-        }         
-
-        // adding stock dialog opener
-        function add_stock(sku)
-        {
-            // call get suppliers from controller
-
-            save_method = 'add-stock';
-            $('#form_add_stock')[0].reset(); // reset form on modals
-            $('#form')[0].reset(); // reset form on modals
-            $('#form_damaged_items')[0].reset(); // reset form on modals
-            $('.form-group').removeClass('has-error'); // clear error class
-            $('.help-block').empty(); // clear error string
-
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "inventory/inventory_controller/ajax_edit/" + sku,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {
-
-                    $('[name="sku"]').val(data.sku);
-                    $('[name="name"]').val(data.name);
-                    $('[name="cost"]').val(data.unit_cost);
-                    $('[name="unit_cost"]').val(data.unit_cost);
-                    $('[name="in_stock"]').val(data.in_stock);
-                    $('[name="reorder_point"]').val(data.reorder_point);
-
-                    $('#modal_form_add_stock').modal('show'); // show bootstrap modal when complete loaded
-                    $('.modal-title').text('Add Stock'); // Set title to Bootstrap modal title
-
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        // damaged items dialog opener
-        function damaged_items(sku)
-        {
-            // call get suppliers from controller
-
-            save_method = 'damaged-items';
-            $('#form_damaged_items')[0].reset(); // reset form on modals
-            $('#form_add_stock')[0].reset(); // reset form on modals
-            $('#form')[0].reset(); // reset form on modals
-            $('.form-group').removeClass('has-error'); // clear error class
-            $('.help-block').empty(); // clear error string
-
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "inventory/inventory_controller/ajax_edit/" + sku,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {
-
-=======
         }
 
         function edit_product(id) // for supplier table
@@ -526,7 +537,6 @@
                 success: function(data)
                 {
 
->>>>>>> 99880b4c17e1670f7d52c38b8cfc96e63b86c640
                     $('[name="sku"]').val(data.sku);
                     $('[name="name"]').val(data.name);
                     $('[name="unit_cost"]').val(data.unit_cost);
@@ -586,6 +596,20 @@
             {
                 url = "inventory/inventory_controller/ajax_update";
             }
+            else if(save_method == 'add-user') 
+            {
+                url = "users/users_controller/ajax_add";
+            }
+            else if(save_method == 'update-user') 
+            {
+                url = "users/users_controller/ajax_update";
+            }
+            else if(save_method == 'update-privileges') 
+            {
+                // change form for add stock to form_add_stock
+                $form = '#form_privileges';
+                url = "users/users_controller/ajax_privileges_update";
+            }
             // if add stock
             else if(save_method == 'add-stock') 
             {
@@ -615,6 +639,7 @@
                         $('#modal_form').modal('hide');
                         $('#modal_form_add_stock').modal('hide');
                         $('#modal_form_damaged_items').modal('hide');
+                        $('#modal_form_privileges').modal('hide');
                         reload_table();
                     }
                     else
@@ -714,3 +739,27 @@
             }
         }
 
+        function delete_user(id)
+        {
+            if(confirm('Are you sure to delete this data?'))
+            {
+                // ajax delete data to database
+                $.ajax({
+                    url : "users/users_controller/ajax_delete/"+id,
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function(data)
+                    {
+                        //if success reload ajax table
+                        $('#modal_form').modal('hide');
+                        $('#modal_form_privileges').modal('hide');
+                        reload_table();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown)
+                    {
+                        alert('Unable to delete one remaining administrator account');
+                    }
+                });
+
+            }
+        }

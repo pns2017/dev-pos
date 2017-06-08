@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Users_model extends CI_Model {
 
 	var $table = 'users';
-	var $column_order = array('user_id','user_type','username','password','lastname','firstname','middlename','contact','email','address','date_registered'); //set column field database for datatable orderable
-	var $column_search = array('username','firstname','lastname','middlename','address'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $column_order = array('user_id','user_type','username','lastname','firstname','middlename','date_registered', null); //set column field database for datatable orderable
+	var $column_search = array('user_id','username','lastname','firstname','middlename'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('user_id' => 'desc'); // default order 
 
 	public function __construct()
@@ -18,7 +18,7 @@ class Users_model extends CI_Model {
 	{
 		
 		$this->db->from($this->table);
-		$this->db->where('removed', 0);
+		//$this->db->where('removed', 0);
 
 		$i = 0;
 	
@@ -60,13 +60,54 @@ class Users_model extends CI_Model {
 		$this->_get_datatables_query();
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
+
+		// get only records that are not currently removed
+        $this->db->where('removed', '0');
 		$query = $this->db->get();
 		return $query->result();
 	}
 
+	// check for duplicates in the database table for validation - fullname
+    function get_duplicates($lastname, $firstname, $middlename)
+    {
+        $this->db->from($this->table);
+        $this->db->where('lastname',$lastname);
+        $this->db->where('firstname',$firstname);
+        $this->db->where('middlename',$middlename);
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    // check for duplicates in the database table for validation - username
+    function get_username_duplicates($username)
+    {
+        $this->db->from($this->table);
+        $this->db->where('username',$username);
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    // check for admin count (administrator is '1')
+    function get_admin_count()
+    {
+        $this->db->from($this->table);
+        $this->db->where('administrator','1');
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
 	function count_filtered()
 	{
 		$this->_get_datatables_query();
+
+		// get only records that are not currently removed
+        $this->db->where('removed', '0');
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -74,25 +115,32 @@ class Users_model extends CI_Model {
 	public function count_all()
 	{
 		$this->db->from($this->table);
+
+		// get only records that are not currently removed
+        $this->db->where('removed', '0');
 		return $this->db->count_all_results();
 	}
 
-	public function get_by_id($id)
+	public function get_by_id($user_id)
 	{
 		$this->db->from($this->table);
-		$this->db->where('user_id',$id);
+		$this->db->where('user_id',$user_id);
 		$query = $this->db->get();
 
 		return $query->row();
 	}
 
-	public function get_by_user_id($id)
+	// check if the user is administrator ('1')
+	public function get_user_admin($user_id)
 	{
+		$this->db->select('administrator');
 		$this->db->from($this->table);
-		$this->db->where('user_id',$id);
+		$this->db->where('user_id',$user_id);
 		$query = $this->db->get();
 
-		return $query->row_array();
+		$row = $query->row();
+
+		return $row->administrator;
 	}
 
 	public function save($data)
@@ -106,12 +154,4 @@ class Users_model extends CI_Model {
 		$this->db->update($this->table, $data, $where);
 		return $this->db->affected_rows();
 	}
-
-	public function delete_by_id($id)
-	{
-		$this->db->where('user_id', $id);
-		$this->db->delete($this->table);
-	}
-
-
 }
