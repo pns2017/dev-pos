@@ -11,30 +11,13 @@ class Users_controller extends CI_Controller {
 
 	public function index()
 	{
-		$user = $this->session->username;
-	   	if($user == ''){
-	   		redirect('/');
-	   	}
-	   	else{
+
 		$this->load->helper('url');							
    												
 	   	$data['title'] = "Users List";	
 	   	$this->load->view('template/dashboard_header');
 	    $this->load->view('users/users_view', $data);		// mao lang ni ang replaceable
 	    $this->load->view('template/dashboard_navigation');
-	    $this->load->view('template/dashboard_footer');
-	 }
-	}
-
-	public function users_view($id){
-		$this->load->helper('url');							
-   												
-	   	$data['title'] = "Basic Information";	
-	   	$data['users'] = $this->users->get_by_user_id($id);
-		$this->load->view('template/dashboard_header');
-	    $this->load->view('users/users_edit_view', $data);		// mao lang ni ang replaceable
-	    $this->load->view('template/dashboard_navigation');
-	    $this->load->view('template/dashboard_footer');
 	    $this->load->view('template/dashboard_footer'); 
 	}
 
@@ -155,7 +138,7 @@ class Users_controller extends CI_Controller {
 		$data['status'] = TRUE;
 
 		// check if the user edited is currently an administrator
-		if ($this->input->post('current_administrator') == '1')
+		if ($this->input->post('current_administrator') == '1' && $this->input->post('administrator') == '0' )
 		{
 			// check for users with administrator set as '1'
 	        $admin_count = $this->users->get_admin_count();

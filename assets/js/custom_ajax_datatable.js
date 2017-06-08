@@ -206,8 +206,11 @@
 
         function view_product(sku)
         {
-            //save_method = 'update';
-            $('#form_view')[0].reset(); // reset form on modals
+            if(document.getElementById('form_view') != null)
+            {
+                $('#form_view')[0].reset(); // reset form on modals
+            }
+
             $('.form-group').removeClass('has-error'); // clear error class
             $('.help-block').empty(); // clear error string
 
@@ -306,13 +309,6 @@
                     $('[name="contact"]').val(data.contact);
                     $('[name="email"]').val(data.email);
                     $('[name="address"]').val(data.address);
-                    // $('[name="administrator"]').val(data.administrator);
-                    // $('[name="cashier"]').val(data.cashier);
-                    // $('[name="inventory"]').val(data.inventory);
-                    // $('[name="supplier"]').val(data.supplier);
-                    // $('[name="customer"]').val(data.customer);
-                    // $('[name="user"]').val(data.user);
-                    // $('[name="report"]').val(data.report);
 
                     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('Edit User'); // Set title to Bootstrap modal title
@@ -328,14 +324,7 @@
         {
             save_method = 'add-customer';
             text = 'Add Customer';
-            if(tableID == "customer-table"){
-                save_method = 'add-customer';
-                text = 'Add Person';
-            }else{
-                save_method = 'add-supplier';
-                text = 'Add Supplier';
-            }
-            // alert(save_method);
+            
             $('#form')[0].reset(); // reset form on modals
             $('.form-group').removeClass('has-error'); // clear error class
             $('.help-block').empty(); // clear error string
@@ -440,6 +429,7 @@
                     $('[name="email"]').val(data.email);
                     $('[name="status"]').val(data.status).prop('selected', true);
                     $('[name="products"]').val(data.products);
+
                     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
          
@@ -449,108 +439,6 @@
                     alert('Error get data from ajax');
                 }
             });
-        }
-
-        function edit_product(id) // for supplier table
-        {
-            save_method = 'update-product';
-            $('#form')[0].reset(); // reset form on modals
-            $('.form-group').removeClass('has-error'); // clear error class
-            $('.help-block').empty(); // clear error string
-         
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "inventory/inventory_controller/ajax_edit/" + id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {
-                    $('[name="sku"]').val(data.sku);
-                    $('[name="current_name"]').val(data.name);
-                    $('[name="name"]').val(data.name);
-                    $('[name="description"]').val(data.description);
-                    $('[name="category"]').val(data.category);
-                    $('[name="unit_price"]').val(data.unit_price);
-                    $('[name="unit_cost"]').val(data.unit_cost);
-                    $('[name="reorder_point"]').val(data.reorder_point);
-
-                    $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-                    $('.modal-title').text('Edit Product'); // Set title to Bootstrap modal title
-                    $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-                    $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
-
-                    $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-                    $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
-
-         
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-
-
-        }         
-
-        // adding stock dialog opener
-        function add_stock(sku)
-        {
-            // call get suppliers from controller
-
-            save_method = 'add-stock';
-            $('#form_add_stock')[0].reset(); // reset form on modals
-            $('#form')[0].reset(); // reset form on modals
-            $('#form_damaged_items')[0].reset(); // reset form on modals
-            $('.form-group').removeClass('has-error'); // clear error class
-            $('.help-block').empty(); // clear error string
-
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "inventory/inventory_controller/ajax_edit/" + sku,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {
-
-                    $('[name="sku"]').val(data.sku);
-                    $('[name="name"]').val(data.name);
-                    $('[name="cost"]').val(data.unit_cost);
-                    $('[name="unit_cost"]').val(data.unit_cost);
-                    $('[name="in_stock"]').val(data.in_stock);
-                    $('[name="reorder_point"]').val(data.reorder_point);
-
-                    $('#modal_form_add_stock').modal('show'); // show bootstrap modal when complete loaded
-                    $('.modal-title').text('Add Stock'); // Set title to Bootstrap modal title
-
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error get data from ajax');
-                }
-            });
-        }
-
-        // damaged items dialog opener
-        function damaged_items(sku)
-        {
-            // call get suppliers from controller
-
-            save_method = 'damaged-items';
-            $('#form_damaged_items')[0].reset(); // reset form on modals
-            $('#form_add_stock')[0].reset(); // reset form on modals
-            $('#form')[0].reset(); // reset form on modals
-            $('.form-group').removeClass('has-error'); // clear error class
-            $('.help-block').empty(); // clear error string
-
-            //Ajax Load data from ajax
-            $.ajax({
-                url : "inventory/inventory_controller/ajax_edit/" + sku,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {
-
         }
 
         function edit_product(id) // for supplier table
@@ -847,7 +735,6 @@
             }
         }
 
-
         function delete_user(id)
         {
             if(confirm('Are you sure to delete this data?'))
@@ -872,4 +759,3 @@
 
             }
         }
-
