@@ -1,13 +1,7 @@
 		<!-- FOOTER -->
 		<!--===================================================-->
 		<footer id="footer">
-			<!-- Visible when footer positions are static -->
-			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-			<div class="hide-fixed pull-right pad-rgt">Currently v2.2</div>
-			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-			<!-- Remove the class name "show-fixed" and "hide-fixed" to make the content always appears. -->
-			<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-			<p class="pad-lft">&#0169; 2015 Your Company</p>
+
 		</footer>
 		<!--===================================================-->
 		<!-- END FOOTER -->
@@ -49,5 +43,14 @@
 	<!--Custom JS for Ajax CRUD [ RECOMMENDED ]-->
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/custom_ajax_datatable.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>assets/js/users_script.js"></script>
+<script type="text/javascript">
+	$(function(){
+    var $select = $(".1-100");
+    for (i=10;i<=100;i+5){
+        $select.append($('<option></option>').val(i).html(i))
+    }
+});
+</script>
+
 </body>
 </html>

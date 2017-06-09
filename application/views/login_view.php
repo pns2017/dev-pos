@@ -61,6 +61,8 @@
 								<span class="text-danger"><?php echo form_error('password');?></span>
 							</div>
 						</div>
+
+						<?php echo '<label class="text-danger">'.$this->session->flashdata("error").'</label>';?>
 						<div class="row">
 							<div class="col-xs-8 text-left checkbox">
 								<label class="form-checkbox form-icon">
@@ -72,17 +74,9 @@
 								<input class="btn btn-success text-uppercase" name="insert" type="submit" value="Sign In"/>
 								</div>
 							</div>
-						</div>
-						<div class="mar-btm"><em>- or -</em></div>
-						<button class="btn btn-danger btn-lg btn-block" type="button">
-							Create New Account
-						</button>
-						<?php echo '<label class="text-danger">'.$this->session->flashdata("error").'</label>';?>
+						</div>		
 					</form>
 				</div>
-			</div>
-			<div class="pad-ver">
-				<a href="#" class="btn-link mar-rgt">Forgot password ?</a>
 			</div>
 		</div>
 		<!--===================================================-->		

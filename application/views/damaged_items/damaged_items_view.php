@@ -23,7 +23,7 @@
                 <!--Breadcrumb-->
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                 <ol class="breadcrumb">
-                    <li><a href="<?php echo base_url();?>">Dashboard</a></li>
+                    <li><a href="<?php echo base_url().'dashboard';?>">Dashboard</a></li>
                     <li class="active">Damaged Items</li>
                 </ol>
                 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

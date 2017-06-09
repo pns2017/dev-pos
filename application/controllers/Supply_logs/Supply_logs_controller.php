@@ -14,6 +14,12 @@ class Supply_logs_controller extends CI_Controller {
 
 	public function index()
 	{
+		$user = $this->session->username;
+		   	if($user == ''){
+		   		redirect('/');
+		   	}
+		   	else{
+
 		$this->load->helper('url');
 
 		$data['title'] = 'Inventory';
@@ -21,7 +27,7 @@ class Supply_logs_controller extends CI_Controller {
         $this->load->view('supply_logs/supply_logs_view', $data);
         $this->load->view('template/dashboard_navigation');
         $this->load->view('template/dashboard_footer');
-
+    	}
 	}
 
 	public function ajax_list()

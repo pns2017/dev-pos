@@ -41,7 +41,7 @@
                         
                                     <!--Menu list item-->
                                     <li class="active-link">
-                                        <a href="<?php echo base_url();?>">
+                                        <a href="<?php echo base_url('dashboard');?>">
                                             <i class="fa fa-dashboard"></i>
                                             <span class="menu-title">
                                                 <strong>Dashboard</strong>
@@ -57,9 +57,9 @@
                         
                                     <!--Menu list item-->
                                     <li>
-                                        <a href="#">
+                                        <a href="<?php echo base_url();?>transaction-page" >
                                             <i class="fa fa-shopping-cart"></i>
-                                            <span class="menu-title">Cashier</span>
+                                            <span class="menu-title">Cashier</span> 
                                         </a>
                                     </li>
                         

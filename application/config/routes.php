@@ -89,3 +89,9 @@ $route['users-view/(:num)'] = 'users/users_controller/users_view/$1';
 $route['showlist-users'] = 'users/users_controller/ajax_list';
 
 $route['showlist-users'] = 'users/users_controller/ajax_list';
+
+
+//************************************** TRANSACTION
+//**************************************
+
+$route['transaction-page'] = 'cashier/cashier_controller/index';

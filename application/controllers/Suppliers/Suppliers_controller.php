@@ -11,6 +11,12 @@ class Suppliers_controller extends CI_Controller {
 
    public function index()						/** Note: ayaw ilisi ang sequence sa page load sa page **/
    { 	
+    $user = $this->session->username;
+    if($user == ''){
+        redirect('/');
+    }
+    else{
+
    	  $this->load->helper('url');							
    													
    	  $data['title'] = 'Suppliers List';					
@@ -18,7 +24,7 @@ class Suppliers_controller extends CI_Controller {
       $this->load->view('suppliers/suppliers_view',$data);   //Kani lang ang ilisi kung mag dungag mo ug Page
       $this->load->view('template/dashboard_navigation');
       $this->load->view('template/dashboard_footer');
-
+    }
    }
 
     public function ajax_list()

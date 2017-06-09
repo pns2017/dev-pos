@@ -1,3 +1,24 @@
 .demo-my-bg{
-			background-image : url("assets/img/balloon.jpg");
-		}
+	background-image : url("assets/img/balloon.jpg");
+}
+input#srch-term.form-control{
+	height: 50px;
+	font-size: 15px;
+}
+
+.tran_container{
+	background-color: #e7ebee;
+}
+#container .table td{
+	border-top: 1px solid #e7ebee;
+}
+#container .table th{
+	border-bottom: 2px solid #e7ebee;
+}
+#btn_search{
+	height: 50px;
+    width: 60px;
+}
+table.table.table-bordered{
+	border: 1px solid #e7ebee;
+}

@@ -214,11 +214,7 @@
         {
             save_method = 'add-customer';
             text = 'Add Customer';
-            
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
             if(tableID == "customer-table"){
                 save_method = 'add-customer';
                 text = 'Add Person';
@@ -227,8 +223,6 @@
                 text = 'Add Supplier';
             }
             // alert(save_method);
->>>>>>> 1f4e2d75fdf1e0eb11bb233d2d5bad25ea22a0c7
->>>>>>> 99880b4c17e1670f7d52c38b8cfc96e63b86c640
             $('#form')[0].reset(); // reset form on modals
             $('.form-group').removeClass('has-error'); // clear error class
             $('.help-block').empty(); // clear error string
@@ -321,8 +315,6 @@
                     $('[name="email"]').val(data.email);
                     $('[name="status"]').val(data.status);
                     $('[name="products"]').val(data.products);
-
-<<<<<<< HEAD
                     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
          
@@ -359,10 +351,9 @@
 
                     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('Edit Product'); // Set title to Bootstrap modal title
-=======
                     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
->>>>>>> 99880b4c17e1670f7d52c38b8cfc96e63b86c640
+
          
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -370,7 +361,7 @@
                     alert('Error get data from ajax');
                 }
             });
-<<<<<<< HEAD
+
         }         
 
         // adding stock dialog opener
@@ -430,8 +421,6 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-
-=======
         }
 
         function edit_product(id) // for supplier table
@@ -525,8 +514,6 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-
->>>>>>> 99880b4c17e1670f7d52c38b8cfc96e63b86c640
                     $('[name="sku"]').val(data.sku);
                     $('[name="name"]').val(data.name);
                     $('[name="unit_cost"]').val(data.unit_cost);
@@ -713,4 +700,3 @@
 
             }
         }
-

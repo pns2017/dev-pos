@@ -13,7 +13,11 @@ class Users_controller extends CI_Controller {
 
 	public function index()
 	{
-
+		$user = $this->session->username;
+	   	if($user == ''){
+	   		redirect('/');
+	   	}
+	   	else{
 		$this->load->helper('url');							
    												
 	   	$data['title'] = "User's Data";	
@@ -21,7 +25,7 @@ class Users_controller extends CI_Controller {
 	    $this->load->view('users/users_view', $data);		// mao lang ni ang replaceable
 	    $this->load->view('template/dashboard_navigation');
 	    $this->load->view('template/dashboard_footer');
-	 
+	 }
 	}
 
 	public function users_view($id){

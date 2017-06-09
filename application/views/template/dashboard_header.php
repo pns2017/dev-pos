@@ -30,7 +30,7 @@
     <!--Bootstrap Table [ OPTIONAL ]-->
     <link href="<?php echo base_url();?>assets/plugins/datatables/media/css/dataTables.bootstrap.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css" rel="stylesheet">
-
+    <link href="<?php echo base_url();?>assets/css/custom.css" rel="stylesheet">
 
 
 
@@ -370,7 +370,7 @@
                                 <span class="pull-right">
                                     <img class="img-circle img-user media-object" src="<?php echo base_url();?>assets/img/av1.png" alt="Profile Picture">
                                 </span>
-                                <div class="username hidden-xs"><?php echo $this->session->username?></div>
+                                <div class="username hidden-xs"><?php echo $this->session->userdata('username')?></div>
                             </a>
 
 
@@ -378,15 +378,13 @@
 
                                 <!-- Dropdown heading  -->
                                 <div class="pad-all bord-btm">
-                                    <p class="text-lg text-muted text-thin mar-btm">User - type</p>
+                                    <p class="text-lg text-muted text-thin mar-btm"><strong><?php echo $this->session->userdata('firstname').' '.$this->session->userdata('lastname'); ?></strong></p>
                                 </div>
-
-
                                 <!-- User dropdown menu -->
                                 <ul class="head-list">
                                     <li>
                                         <a href="#">
-                                            <i class="fa fa-user fa-fw fa-lg"></i> Profile
+                                            <i class="fa fa-user fa-fw fa-lg"></i> View Profile
                                         </a>
                                     </li>
                                     <li>

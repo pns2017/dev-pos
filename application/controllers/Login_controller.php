@@ -20,20 +20,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$password = $this->input->post('password');
 
 			$this->load->model('login/login_user_model','login_model');
-			if($this->login_model->can_login($username, $password)){
-				$session_data = array(
-					'username' => $username
-					);
-				$this->session->set_userdata($session_data);
+			
+			$result = $this->login_model->can_login($username, $password);
+
+			if($result){
+				$new_array = array();
+				foreach($result as $row)
+				     {
+				       $new_array = array(
+				         'user_id' => $row->user_id,
+				         'username' => $row->username,
+				         'lastname' => $row->lastname,
+				         'firstname' => $row->firstname,
+				       );
+				       $this->session->set_userdata($new_array);
+				     }
 
 				redirect(base_url().'dashboard');
 			}else{
-				redirect(base_url());
-				$this->session->set_flashdata('error', 'Invalid Username and Password');
-				
+
+				$this->session->set_flashdata('error', '<strong>Login Error!</strong><br />Invalid Username and Password');
+				redirect('/');
 			}
 		}else{
-			$this->index();//false
+			$this->session->set_flashdata('error', '<strong>Login Error!</strong><br />Enter your username and Password');
+			redirect('/');//false
 		}
 			
 	   }

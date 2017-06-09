@@ -24,9 +24,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// $this->db->where('password', $password);
 			// $query = $this->db->get('users');
 			//SELECT * FROM users WHERE username = '$username' AND password = '$password'
-
 			if($query->num_rows() > 0){
-				return true;
+				return $res = $query->result();
 			}else{
 				return false;
 			}
