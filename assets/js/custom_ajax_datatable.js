@@ -328,8 +328,6 @@
         {
             save_method = 'add-customer';
             text = 'Add Customer';
-<<<<<<< HEAD
-
             if(tableID == "customer-table"){
                 save_method = 'add-customer';
                 text = 'Add Person';
@@ -338,9 +336,6 @@
                 text = 'Add Supplier';
             }
             // alert(save_method);
-=======
-            
->>>>>>> 7361b60cf7ae70b54421a1928806de85c6a82ce2
             $('#form')[0].reset(); // reset form on modals
             $('.form-group').removeClass('has-error'); // clear error class
             $('.help-block').empty(); // clear error string
@@ -445,7 +440,6 @@
                     $('[name="email"]').val(data.email);
                     $('[name="status"]').val(data.status).prop('selected', true);
                     $('[name="products"]').val(data.products);
-<<<<<<< HEAD
                     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
          
@@ -485,11 +479,9 @@
                     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
 
-=======
-
                     $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                     $('.modal-title').text('Edit Supplier'); // Set title to Bootstrap modal title
->>>>>>> 7361b60cf7ae70b54421a1928806de85c6a82ce2
+
          
                 },
                 error: function (jqXHR, textStatus, errorThrown)
@@ -497,7 +489,7 @@
                     alert('Error get data from ajax');
                 }
             });
-<<<<<<< HEAD
+
 
         }         
 
@@ -558,8 +550,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-=======
->>>>>>> 7361b60cf7ae70b54421a1928806de85c6a82ce2
+
         }
 
         function edit_product(id) // for supplier table
@@ -653,10 +644,7 @@
                 dataType: "JSON",
                 success: function(data)
                 {
-<<<<<<< HEAD
-=======
 
->>>>>>> 7361b60cf7ae70b54421a1928806de85c6a82ce2
                     $('[name="sku"]').val(data.sku);
                     $('[name="name"]').val(data.name);
                     $('[name="unit_cost"]').val(data.unit_cost);
@@ -858,8 +846,7 @@
 
             }
         }
-<<<<<<< HEAD
-=======
+
 
         function delete_user(id)
         {
@@ -885,4 +872,4 @@
 
             }
         }
->>>>>>> 7361b60cf7ae70b54421a1928806de85c6a82ce2
+

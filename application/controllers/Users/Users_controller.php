@@ -22,7 +22,6 @@ class Users_controller extends CI_Controller {
 	   	$this->load->view('template/dashboard_header');
 	    $this->load->view('users/users_view', $data);		// mao lang ni ang replaceable
 	    $this->load->view('template/dashboard_navigation');
-<<<<<<< HEAD
 	    $this->load->view('template/dashboard_footer');
 	 }
 	}
@@ -36,9 +35,7 @@ class Users_controller extends CI_Controller {
 	    $this->load->view('users/users_edit_view', $data);		// mao lang ni ang replaceable
 	    $this->load->view('template/dashboard_navigation');
 	    $this->load->view('template/dashboard_footer');
-=======
 	    $this->load->view('template/dashboard_footer'); 
->>>>>>> 7361b60cf7ae70b54421a1928806de85c6a82ce2
 	}
 
 	public function ajax_list()
