@@ -84,10 +84,9 @@ $route['showlist-damaged_items'] = 'damaged_items/damaged_items_controller/ajax_
 
 $route['users-page'] = 'users/users_controller/index';
 
-$route['users-view/(:num)'] = 'users/users_controller/users_view/$1';
-
 $route['showlist-users'] = 'users/users_controller/ajax_list';
 
+<<<<<<< HEAD
 $route['showlist-users'] = 'users/users_controller/ajax_list';
 
 
@@ -95,3 +94,16 @@ $route['showlist-users'] = 'users/users_controller/ajax_list';
 //**************************************
 
 $route['transaction-page'] = 'cashier/cashier_controller/index';
+=======
+$route['edit-user/(:num)'] = 'users/users_controller/ajax_edit/$1';
+
+$route['add-user/(:num)'] = 'users/users_controller/ajax_add/$1';
+
+$route['update-user/(:num)'] = 'users/users_controller/ajax_update/$1';
+
+$route['edit-priveleges/(:num)'] = 'users/users_controller/ajax_edit/$1';
+
+$route['update-priveleges/(:num)'] = 'users/users_controller/ajax_priveleges_update/$1';
+
+$route['delete-user/(:num)'] = 'users/users_controller/ajax_delete/$1';
+>>>>>>> 7361b60cf7ae70b54421a1928806de85c6a82ce2

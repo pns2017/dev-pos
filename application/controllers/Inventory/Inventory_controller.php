@@ -48,13 +48,12 @@ class Inventory_controller extends CI_Controller {
 			$row[] = $inventory->unit_cost;
 			$row[] = $inventory->in_stock;
 			$row[] = $inventory->unit_sold;
-			$row[] = $inventory->unit_damaged;
-			$row[] = $inventory->unit_lost;
 			$row[] = $inventory->reorder_point;
 
 
 			//add html for action
-			$row[] = '<a class="btn btn-sm btn-success" href="javascript:void(0)" title="Add Stock" onclick="add_stock('."'".$inventory->sku."'".')"><i class="fa fa-plus-circle"></i> </a>
+			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="View Product" onclick="view_product('."'".$inventory->sku."'".')"><i class="fa fa-eye"></i> </a>
+					<a class="btn btn-sm btn-success" href="javascript:void(0)" title="Add Stock" onclick="add_stock('."'".$inventory->sku."'".')"><i class="fa fa-plus-circle"></i> </a>
 					<a class="btn btn-sm btn-info" href="javascript:void(0)" title="Edit" onclick="edit_product('."'".$inventory->sku."'".')"><i class="fa fa-pencil-square-o"></i> </a>
 					<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Damaged Stock" onclick="damaged_items('."'".$inventory->sku."'".')"><i class="fa fa-chain-broken"></i> </a>
 					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Delete" onclick="delete_product('."'".$inventory->sku."'".')"><i class="fa fa-trash-o"></i> </a>'
@@ -93,7 +92,8 @@ class Inventory_controller extends CI_Controller {
 				'unit_damaged' => 0,
 				'unit_lost' => 0,
 				'reorder_point' => $this->input->post('reorder_point'),
-				'removed' => '0'
+				'imgpath' => 'none.jpg',
+				'removed' => '0',
 			);
 		$insert = $this->inventory->save($data);
 		echo json_encode(array("status" => TRUE));
@@ -166,6 +166,36 @@ class Inventory_controller extends CI_Controller {
 		$this->inventory->update(array('sku' => $sku), $data);
 		echo json_encode(array("status" => TRUE));
 	}
+
+	public function do_upload() 
+	{
+         $config['upload_path']   = './uploads/'; 
+         $config['allowed_types'] = 'jpg'; 
+         $config['max_size']      = 100; 
+         $config['max_width']     = 1024; 
+         $config['max_height']    = 768;
+         $new_name = $this->input->post('sku') . '.jpg';
+		 $config['file_name'] = $new_name;
+		 $config['overwrite'] = TRUE;
+
+         $this->load->library('upload', $config);
+			
+         if ( ! $this->upload->do_upload('userfile')) // upload fail
+         {
+            $error = array('error' => $this->upload->display_errors()); 
+            $this->load->view('upload_form', $error);
+         }
+         else // upload success
+         { 
+            $data = array('upload_data' => $this->upload->data()); 
+            
+            $data = array(
+				'imgpath' => $new_name
+			);
+			$this->inventory->update(array('sku' => $this->input->post('sku')), $data);
+			redirect('/inventory-page');
+         } 
+    }
 
 
 	private function _validate()

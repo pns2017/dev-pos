@@ -1,6 +1,4 @@
 <?php
-//include 'function_controller';
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Users_controller extends CI_Controller {
@@ -20,10 +18,11 @@ class Users_controller extends CI_Controller {
 	   	else{
 		$this->load->helper('url');							
    												
-	   	$data['title'] = "User's Data";	
+	   	$data['title'] = "Users List";	
 	   	$this->load->view('template/dashboard_header');
 	    $this->load->view('users/users_view', $data);		// mao lang ni ang replaceable
 	    $this->load->view('template/dashboard_navigation');
+<<<<<<< HEAD
 	    $this->load->view('template/dashboard_footer');
 	 }
 	}
@@ -37,9 +36,12 @@ class Users_controller extends CI_Controller {
 	    $this->load->view('users/users_edit_view', $data);		// mao lang ni ang replaceable
 	    $this->load->view('template/dashboard_navigation');
 	    $this->load->view('template/dashboard_footer');
+=======
+	    $this->load->view('template/dashboard_footer'); 
+>>>>>>> 7361b60cf7ae70b54421a1928806de85c6a82ce2
 	}
 
-	public function users_list()
+	public function ajax_list()
 	{
 		$list = $this->users->get_datatables();
 		$data = array();
@@ -48,38 +50,32 @@ class Users_controller extends CI_Controller {
 			$no++;
 			$row = array();
 			$row[] = $users->user_id;
-			
+
+			// check if the user is admin
 			if ($users->administrator == 0){
-				$row[] = 'user' ;
+				$row[] = 'user';
 			}else{
-				$row[] = 'administrator' ;
+				$row[] = 'administrator';
 			}
 
 			$row[] = $users->username;
-			$row[] = $users->password;
-
-			$ln = $users->lastname;
-			$fn = $users->firstname;
-			$mn = $users->middlename;
-			$row[] = $ln .", ".$fn." ".$mn;
-			$row[] = $users->contact;
-			$row[] = $users->email;
-			$row[] = $users->address;
+			// $row[] = $users->password;
+            $row[] = $users->lastname;
+            $row[] = $users->firstname;
+            $row[] = $users->middlename;
+			// $row[] = $users->contact;
+			// $row[] = $users->email;
+			// $row[] = $users->address;
 			$row[] = $users->date_registered;
-			
 
-
-                        
-                              
-                       
 			//add html for action
-			$row[] = ' <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Privilege" onclick="_privilege('."'".$users->user_id."'".')"><i class="fa fa-unlock-alt"></i></a>
-						<a class="btn btn-sm btn-primary" href=" users-view/'.''.$users->user_id.'" title="View" ><i class="fa fa-eye"></i></a>
+			$row[] = ' <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="View / Edit" onclick="view_edit_user('."'".$users->user_id."'".')"><i class="fa fa-eye"></i></a>
+
+						<a class="btn btn-sm btn-success" href="javascript:void(0)" title="Privileges" onclick="edit_privileges('."'".$users->user_id."'".')"><i class="fa fa-unlock-alt"></i></a>
+						
 				  		<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Delete" onclick="delete_user('."'".$users->user_id."'".')"><i class="fa fa-trash-o"></i></a>';
 		
 			$data[] = $row;
-
-			
 		}
 
 		$output = array(
@@ -92,17 +88,16 @@ class Users_controller extends CI_Controller {
 		echo json_encode($output);
 	}
 
-	public function users_edit($id)
+	public function ajax_edit($user_id)
 	{
-		$data = $this->users->get_by_id($id);
-		//$data->dob = ($data->dob == '0000-00-00') ? '' : $data->dob; // if 0000-00-00 set tu empty for datepicker compatibility
+		$data = $this->users->get_by_id($user_id);
 		echo json_encode($data);
 	}
 
-	public function users_add()
+	public function ajax_add()
 	{
 		$this->_validate();
-		$this->_validate_password();
+		//$this->_validate_password();
 		$data = array(
 				'username' => $this->input->post('username'),
 		        'password' => password_hash($this->input->post('password'),PASSWORD_BCRYPT),
@@ -112,50 +107,95 @@ class Users_controller extends CI_Controller {
 		        'contact' => $this->input->post('contact'),
 		        'email' => $this->input->post('email'),
 		        'address' => $this->input->post('address'),
-		        'date_registered' => date('Y-m-d'),
-		        'removed' => '0',
+		        'date_registered' => date("Y-m-d H:i:s"),
 		        'administrator' => '0',
 				'cashier' => '0',
 				'inventory' => '0',
 				'supplier' => '0',
 				'customer' =>'0',
 				'user' => '0',
-				'report' => '0'
+				'report' => '0',
+				'removed' => '0'
 			);
 		$insert = $this->users->save($data);
 		echo json_encode(array("status" => TRUE));
 	}
 
-	public function users_update()
+	public function ajax_update()
 	{
 		$this->_validate();
+		//$this->_validate_password();
 		$data = array(
 				'username' => $this->input->post('username'),
+				'password' => password_hash($this->input->post('password'),PASSWORD_BCRYPT),
 		        'lastname' => $this->input->post('lastname'),
 		        'firstname' => $this->input->post('firstname'),
 		        'middlename' => $this->input->post('middlename'),
 		        'contact' => $this->input->post('contact'),
 		        'email' => $this->input->post('email'),
-		        'address' => $this->input->post('address')		        
+		        'address' => $this->input->post('address')	        
 			);
-		$this->users->update(array('user_id' => $this->input->post('id')), $data);
+		$this->users->update(array('user_id' => $this->input->post('user_id')), $data);
 		echo json_encode(array("status" => TRUE));
 	}
 
-	public function password_update()
-	{
+	// public function password_update()
+	// {
 		
-		$this->_validate_password();
-		$data = array(
-				'password' => password_hash($this->input->post('password'),PASSWORD_BCRYPT)
-			);
-		$this->users->update(array('user_id' => $this->input->post('id')), $data);
-		echo json_encode(array("status" => TRUE));
-	}
+		
+	// 	$data = array(
+	// 			'password' => password_hash($this->input->post('password'),PASSWORD_BCRYPT)
+	// 		);
+	// 	$this->users->update(array('user_id' => $this->input->post('id')), $data);
+	// 	echo json_encode(array("status" => TRUE));
+	// }
 
-	public function privilege_update()
+	public function ajax_privileges_update()
 	{
-		$data = array(
+		$data = array();
+		$data['error_string'] = array();
+		$data['inputerror'] = array();
+		$data['status'] = TRUE;
+
+		// check if the user edited is currently an administrator
+		if ($this->input->post('current_administrator') == '1')
+		{
+			// check for users with administrator set as '1'
+	        $admin_count = $this->users->get_admin_count();
+
+	        // reject if only 1 remaining 
+	        if ($admin_count->num_rows() <= 1)
+	        {
+	        	$data['inputerror'][] = 'administrator';
+				$data['error_string'][] = 'Unable to downgrade one remaining administrator account';
+				$data['status'] = FALSE;
+
+				if($data['status'] === FALSE)
+				{
+					echo json_encode($data);
+					exit();
+				}
+	        }
+	        // allow if more than 1 admin
+            else
+            {
+				$data = array(
+					'administrator' => $this->input->post('administrator'),
+					'cashier' => $this->input->post('cashier'),
+					'inventory' => $this->input->post('inventory'),
+					'supplier' => $this->input->post('supplier'),
+					'customer' => $this->input->post('customer'),
+					'user' => $this->input->post('user'),
+					'report' => $this->input->post('report')
+					  	);
+				$this->users->update(array('user_id' => $this->input->post('user_id')), $data);
+				echo json_encode(array("status" => TRUE));	
+            }
+		}
+		// if the user is currently not an administrator
+		else
+		{
+			$data = array(
 				'administrator' => $this->input->post('administrator'),
 				'cashier' => $this->input->post('cashier'),
 				'inventory' => $this->input->post('inventory'),
@@ -163,15 +203,44 @@ class Users_controller extends CI_Controller {
 				'customer' => $this->input->post('customer'),
 				'user' => $this->input->post('user'),
 				'report' => $this->input->post('report')
-		  	);
-		$this->users->update(array('user_id' => $this->input->post('id')), $data);
-		echo json_encode(array("status" => TRUE));
+			  	);
+			$this->users->update(array('user_id' => $this->input->post('user_id')), $data);
+			echo json_encode(array("status" => TRUE));
+		}
 	}
 
-	public function users_delete($id)
+	public function ajax_delete($user_id)
 	{
-		$this->users->delete_by_id($id); 
-		echo json_encode(array("status" => TRUE));
+		// check if atleast one admin remains
+		// check if the user is an admin
+		$is_admin = $this->users->get_user_admin($user_id);
+
+		// check if the user to be deleted is an administrator
+        if ($is_admin == '1')
+        {
+            // check for users with administrator set as '1'
+            $admin_count = $this->users->get_admin_count();
+
+            // allow if more than 1 admin
+            if ($admin_count->num_rows() > 1)
+            {
+                $data = array(
+                'removed' => '1'
+		            );
+				$this->users->update(array('user_id' => $user_id), $data);
+				echo json_encode(array("status" => TRUE));
+            } 
+            // reject if only 1 remaining -> refer to custom_ajax_datatable.js delete_user
+        }
+        // if not admin
+        else
+        {
+        	$data = array(
+            'removed' => '1'
+	            );
+			$this->users->update(array('user_id' => $user_id), $data);
+			echo json_encode(array("status" => TRUE));
+        }
 	}
 
 
@@ -183,21 +252,20 @@ class Users_controller extends CI_Controller {
 		$data['status'] = TRUE;
 
 		///---------------password validation start
-
-		if($this->input->post('password') != $this->input->post('repassword')){
-			$data['inputerror'][] = 'repassword';
-			$data['error_string'][] = 'Password mismatch';
-			$data['status'] = FALSE;
-		}
-
 		if($this->input->post('password') == '' AND $this->input->post('id')== 0 ){
 			$data['inputerror'][] = 'password';
-			$data['error_string'][] = 'Password could not be empty';
+			$data['error_string'][] = 'Password is required';
 			$data['status'] = FALSE;
 		}
 		if($this->input->post('repassword') == '' AND $this->input->post('id')== 0){
 			$data['inputerror'][] = 'repassword';
-			$data['error_string'][] = 'Password could not be empty';
+			$data['error_string'][] = 'Password is required';
+			$data['status'] = FALSE;
+		}
+		// match password to retyped password
+		if($this->input->post('password') != $this->input->post('repassword')){
+			$data['inputerror'][] = 'repassword';
+			$data['error_string'][] = 'Password mismatch';
 			$data['status'] = FALSE;
 		}
 		///---------------password validation end
@@ -205,9 +273,27 @@ class Users_controller extends CI_Controller {
 		if($this->input->post('username') == '')
 		{
 			$data['inputerror'][] = 'username';
-			$data['error_string'][] = 'username is required and account be empty';
+			$data['error_string'][] = 'Username is required';
 			$data['status'] = FALSE;
 		}
+		// validation for duplicates
+        else
+        {
+            $new_username = $this->input->post('username');
+            // check if name has a new value or not
+            if ($this->input->post('current_username') != $new_username)
+            {
+                // validate if name already exist in the database table
+                $username_duplicates = $this->users->get_username_duplicates($this->input->post('username'));
+
+                if ($username_duplicates->num_rows() != 0)
+                {
+                    $data['inputerror'][] = 'username';
+                    $data['error_string'][] = 'Username is already registered';
+                    $data['status'] = FALSE;
+                }
+            }
+        }
 
 		
 		if($this->input->post('firstname') == '')
@@ -230,11 +316,30 @@ class Users_controller extends CI_Controller {
 			$data['error_string'][] = 'Middle name is required';
 			$data['status'] = FALSE;
 		}
+		// validation for duplicates
+        else
+        {
+            $new_name = $this->input->post('lastname') . $this->input->post('firstname') . $this->input->post('middlename');
+            // check if name has a new value or not
+            if ($this->input->post('current_name') != $new_name)
+            {
+                // validate if name already exist in the databaase table
+                $duplicates = $this->users->get_duplicates($this->input->post('lastname'), $this->input->post('firstname'), $this->input->post('middlename'));
+
+                if ($duplicates->num_rows() != 0)
+                {
+                    $data['inputerror'][] = 'lastname';
+                    $data['error_string'][] = 'User full name is already registered';
+                    $data['status'] = FALSE;
+                }
+            }
+        }
+
 
 		if($this->input->post('contact') == '')
 		{
 			$data['inputerror'][] = 'contact';
-			$data['error_string'][] = 'Contact Number is required';
+			$data['error_string'][] = 'Contact is required';
 			$data['status'] = FALSE;
 
 		}
@@ -242,7 +347,7 @@ class Users_controller extends CI_Controller {
 		if($this->input->post('email') == '')
 		{
 			$data['inputerror'][] = 'email';
-			$data['error_string'][] = 'Email Address is required';
+			$data['error_string'][] = 'Email is required';
 			$data['status'] = FALSE;
 		}
 
@@ -258,40 +363,5 @@ class Users_controller extends CI_Controller {
 			echo json_encode($data);
 			exit();
 		}
-	}
-
-
-	private function _validate_password()
-	{
-		$data = array();
-		$data['error_string'] = array();
-		$data['inputerror'] = array();
-		$data['status'] = TRUE;
-
-		if($this->input->post('password') != $this->input->post('repassword')){
-			$data['inputerror'][] = 'repassword';
-			$data['error_string'][] = 'Password mismatch';
-			$data['status'] = FALSE;
-		}
-
-		if($this->input->post('password') == '' AND $this->input->post('id')== 0 ){
-			$data['inputerror'][] = 'password';
-			$data['error_string'][] = 'Password could not be empty';
-			$data['status'] = FALSE;
-		}
-		if($this->input->post('repassword') == '' AND $this->input->post('id')== 0){
-			$data['inputerror'][] = 'repassword';
-			$data['error_string'][] = 'Password could not be empty';
-			$data['status'] = FALSE;
-		}
-
-		if($data['status'] === FALSE)
-		{
-			echo json_encode($data);
-			exit();
-		}
-	}
-
-
-	
+	}	
 }

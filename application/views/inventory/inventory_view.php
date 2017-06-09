@@ -52,10 +52,8 @@
                                         <th class="min-desktop">Cost</th>
                                         <th class="min-desktop">InStock</th>
                                         <th class="min-desktop">Sold</th>
-                                        <th class="min-desktop">Dmgd</th>
-                                        <th class="min-desktop">Lost</th>
                                         <th class="min-desktop">Reorder</th>
-                                        <th style="width:130px;">Action</th>
+                                        <th style="width:160px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -128,6 +126,7 @@
                                             <span class="help-block"></span>
                                         </div>
                                     </div>
+
                                 </div>
                             </form>
                         </div>
@@ -139,6 +138,125 @@
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
             <!-- End Bootstrap modal -->
+
+            <!-- Bootstrap modal -->
+            <div class="modal fade" id="modal_form_view" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 class="modal-title">Product Details</h3>
+                        </div>
+                        <div class="modal-body form">
+
+                            <div class="form-group">
+
+                                <img id="image" style="width:200px; height:200px; float:left; margin-left:100px;">
+                                
+                                <?php echo form_open_multipart('inventory/inventory_controller/do_upload');?> 
+                                  <form action = "" method = "" style = "float:right;">
+                                    <input type="hidden" value="" name="sku"/> 
+                                     <br /><br /> <br /><br /> <br /><br />   
+                                     <input type = "file" name = "userfile" size = "20" style = "padding-left: 20px;"/> 
+                                     <br /><br /> 
+                                     <span class="help-block"></span>
+                                     <input type = "submit" value = "upload" class="btn btn-success" style = "margin-left: 20px;"/>
+                                  </form>
+
+                            </div>
+                            <hr>
+
+                            <form action="#" id="form_view" class="form-horizontal">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">SKU :</label>
+                                        <div class="col-md-9">
+                                            <input name="sku" placeholder="SKU" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Product Name :</label>
+                                        <div class="col-md-9">
+                                            <input name="name" placeholder="Product Name" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">Description :</label>
+                                        <div class="col-md-9">
+                                            <input name="description" placeholder="Description" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding-left: 50px;">
+                                    <div class="form-group col-xs-6">
+                                        <label style="width:100px;" class="control-label col-md-3">Category :</label>
+                                        <div class="col-md-9" style="width:140px;">
+                                            <input name="category" placeholder="Category" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-6"">
+                                        <label style="width:100px;" class="control-label col-md-3">Reorder Point :</label>
+                                        <div class="col-md-9" style="width:140px;">
+                                            <input name="reorder_point" placeholder="Reorder Point" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    <div class="row" style="padding-left: 50px;">
+                                    <div class="form-group col-xs-6">
+                                        <label style="width:100px;" class="control-label col-md-3">Unit Price :</label>
+                                        <div class="col-md-9" style="width:140px;">
+                                            <input name="unit_price" placeholder="Unit Price" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-6">
+                                        <label style="width:100px;" class="control-label col-md-3">Unit Cost :</label>
+                                        <div class="col-md-9" style="width:140px;">
+                                            <input name="unit_cost" placeholder="Unit Cost" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row" style="padding-left: 50px;">
+                                    <div class="form-group col-xs-6">
+                                        <label style="width:100px;" class="control-label col-md-3">In Stock :</label>
+                                        <div class="col-md-9" style="width:140px;">
+                                            <input name="in_stock" placeholder="In Stock" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-6">
+                                        <label style="width:100px;" class="control-label col-md-3">Unit Sold :</label>
+                                        <div class="col-md-9" style="width:140px;">
+                                            <input name="unit_sold" placeholder="Unit Sold" class="form-control" type="text" disabled>
+                                        </div>
+                                    </div>
+                                    </div>                          
+                                    <div class="row" style="padding-left: 50px;">
+                                    <div class="form-group col-xs-6">
+                                        <label style="width:100px;" class="control-label col-md-3">Damaged :</label>
+                                        <div class="col-md-9" style="width:140px;">
+                                            <input name="unit_damaged" placeholder="Unit Damaged" class="form-control" type="text" disabled>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-6">
+                                        <label style="width:100px;" class="control-label col-md-3">Unit Lost :</label>
+                                        <div class="col-md-9" style="width:140px;">
+                                            <input name="unit_lost" placeholder="Unit Lost" class="form-control" type="text" disabled>
+                                            <span class="help-block"></span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> &nbsp;Close</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <!-- End Bootstrap modal -->
+
 
             <!-- Bootstrap modal for ADDING STOCK -->
             <div class="modal fade" id="modal_form_add_stock" role="dialog">

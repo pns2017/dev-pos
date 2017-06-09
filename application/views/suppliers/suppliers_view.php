@@ -124,29 +124,8 @@
 
                                             <select name="status" class="form-control">
                                                 <option value="">--Select Supplier--</option>
-                                                <?php 
-                                                    // if default no value (create)
-                                                    if ($this->input->get('status') == '')
-                                                    {
-                                                        echo '<option value="Active">Active</option>';
-                                                        echo '<option value="Inactive">Inactive</option>';
-                                                    }
-                                                    else
-                                                    {
-                                                        if ($this->input->get('status') == 'Active')
-                                                        {
-                                                            // if active
-                                                            echo '<option value="Active" selected>Active</option>';
-                                                            echo '<option value="Inactive">Inactive</option>';
-                                                        }
-                                                        else
-                                                        {
-                                                            // if inactive
-                                                            echo '<option value="Active">Active</option>';
-                                                            echo '<option value="Inactive" selected>Inactive</option>';   
-                                                        }
-                                                    }
-                                                ?>
+                                                <option value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option>
                                             </select>
                                             <span class="help-block"></span>
                                         </div>
